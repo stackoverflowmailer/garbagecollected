@@ -293,3 +293,60 @@ Caused by: java.io.FileNotFoundException: class path resource [demo/spring/xml/e
 }}}
 
 Besides all the useless junk, this exception actually tells you what is going on. But this code blows up at run time, not at compile time.
+
+= Closing Comment = 
+To see how Guice collects multiple errors and presents them to you all at once (instead of one at a time), take a look at [http://code.google.com/p/google-guice/source/browse/trunk/test/com/google/inject/ErrorHandlingTest.java this test] in the Guice sources. Thanks to Bob for pointing me to this example.
+
+Output looks like:
+{{{
+1) Error at demo.ErrorHandlingTest$BadScope.class(ErrorHandlingTest.java:1):
+ Please annotate with @ScopeAnnotation.
+
+2) Error at demo.ErrorHandlingTest$BadScope.class(ErrorHandlingTest.java:1):
+ Please annotate with @Retention(RUNTIME). Bound at demo.ErrorHandlingTest$MyModule.configure(ErrorHandlingTest.java:139).
+
+3) Error at demo.ErrorHandlingTest$Bar.<init>(ErrorHandlingTest.java:96):
+ Could not find a suitable constructor in demo.ErrorHandlingTest$Bar. Classes must have either one (and only one) constructor annotated with @Inject or a zero-argument constructor.
+
+4) Error at demo.ErrorHandlingTest$Bar.bar(ErrorHandlingTest.java:100):
+ Binding to java.lang.String annotated with @com.google.inject.name.Named(value=foo) not found. Annotations on other bindings to that type include: [@com.google.inject.name.Named(value=foo)]
+
+5) Error at demo.ErrorHandlingTest$Bar.setNumbers(ErrorHandlingTest.java:98):
+ Binding to java.util.List<java.lang.Integer> annotated with @com.google.inject.name.Named(value=numbers) not found. No bindings to that type were found.
+
+6) Error at demo.ErrorHandlingTest$I.class(ErrorHandlingTest.java:1):
+ java.lang.String doesn't extend demo.ErrorHandlingTest$I.
+
+7) Error at demo.ErrorHandlingTest$Invalid.<init>(ErrorHandlingTest.java:112):
+ Error while injecting at demo.ErrorHandlingTest$Tee.invalid(ErrorHandlingTest.java:103): Could not find a suitable constructor in demo.ErrorHandlingTest$Invalid. Classes must have either one (and only one) constructor annotated with @Inject or a zero-argument constructor.
+
+8) Error at demo.ErrorHandlingTest$MyModule.configure(ErrorHandlingTest.java:136):
+ No scope is bound to @Named.
+
+9) Error at demo.ErrorHandlingTest$MyModule.configure(ErrorHandlingTest.java:137):
+ Binding points to itself.
+
+10) Error at demo.ErrorHandlingTest$MyModule.configure(ErrorHandlingTest.java:137):
+ A binding to java.lang.Runnable was already configured at demo.ErrorHandlingTest$MyModule.configure(ErrorHandlingTest.java:131).
+
+11) Error at demo.ErrorHandlingTest$MyModule.configure(ErrorHandlingTest.java:147):
+ I don't like you
+
+12) Error at demo.ErrorHandlingTest$MyModule.configure(ErrorHandlingTest.java:153):
+ An exception was caught and reported. See log for details. Message: java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Integer
+
+13) Error at demo.ErrorHandlingTest$MyModule.configure(ErrorHandlingTest.java:156):
+ Binding to core guice framework type is not allowed: Module.
+
+14) Error at demo.ErrorHandlingTest$Tee.tee(ErrorHandlingTest.java:106):
+ Binding to int not found. No bindings to that type were found.
+
+15) Error at demo.ErrorHandlingTest$TooManyScopes.class(ErrorHandlingTest.java:116):
+ More than one scope annotation was found: @Singleton and @GoodScope
+
+16) Error at demo.ErrorHandlingTest.missing(ErrorHandlingTest.java:44):
+ Binding to java.util.List<java.lang.String> annotated with @com.google.inject.name.Named(value=missing) not found. Annotations on other bindings to that type include: [[no annotation]]
+
+}}}
+
+No more run-fix-run-fix-run-fix. Guice lets you run-fix-fix-fix. :-)
