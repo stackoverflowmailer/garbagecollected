@@ -161,7 +161,8 @@ No enum const class demo.error.Number.TW
 	at demo.error.Error3.main(Error3.java:19)
 }}}
 
-Notice how Guice also links to the source configuration line (Error3.java:15), which is clickable in any Java IDE.
+Notice how Guice also links to the source configuration line (Error3.java:15), which is clickable in any Java IDE. 
+Note that Guice can also bind enum values directly, which would then result in a compile error if you make a typo. Don't use string conversion when you don't have to.
 
 Spring:
 {{{
