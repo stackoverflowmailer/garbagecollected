@@ -192,7 +192,7 @@ public class SpringMain {
 
 = Demo: The Spring 2.5 single-line-of-XML Smurfs =
 
-Reusing the same `@Grouchy` and `@White` annotations from the previous Spring example, you can reduce the amount of XML further by enabling class path component scanning. Using that option, you need to annotate your classes themselves with their configuration. I'm not a fan, but maybe you are (Guice modules!).
+Reusing the same `@Grouchy` and `@White` annotations from the previous Spring example, you can reduce the amount of XML further by enabling class path component scanning. Using that option, you need to annotate your classes themselves with their configuration. I'm not a fan (Guice modules, please!), but maybe you are.
 
 {{{
 @Grouchy
