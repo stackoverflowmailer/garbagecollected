@@ -2,7 +2,7 @@
 
 = Introduction =
 
-This is example code that randomly compares Guice error handling with Spring error handling. This uses the example shown [GuicySpring here].
+This is example code that randomly compares Guice error handling with Spring error handling. It uses the example shown [GuicySpring here].
 
 Guice's error handling is one of the framework's great strengths.
   * Lots of mistakes get detected at compile time.
