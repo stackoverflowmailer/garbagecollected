@@ -263,5 +263,8 @@ Obviously, it's not possible to annotate `java.lang.String`, so next to enabling
 
 To run the code above, you can reuse the same `SpringMain` class from the previous example.
 
+= Where's Spring's JavaConfig? =
+To see how that would look, I refer to the XML. ;-)
+
 = Hidden Mistake =
 Spring's default is singleton scope, Guice's default is "no scope" (what the Spring folks call "prototype"). So these examples do not behave exactly the same.
