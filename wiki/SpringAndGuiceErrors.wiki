@@ -10,6 +10,8 @@ Guice's error handling is one of the framework's great strengths.
   * Guice links to the offending configuration code in the error message, on which you can click to navigate to the line of configuration that matters (Java IDE feature).
   * Guice's error messages actually help.
 
+THIS IS NOT A COMPLETE COMPARISON, AND WILL NEVER BE. I will add to this document over time.
+
 = One =
 Typo in Guice's `@Named` or Spring's corresponding `@Qualifier` configuration.
 
