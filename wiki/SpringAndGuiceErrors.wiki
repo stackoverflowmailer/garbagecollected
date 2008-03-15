@@ -292,4 +292,4 @@ Caused by: java.io.FileNotFoundException: class path resource [demo/spring/xml/e
 	... 21 more
 }}}
 
-Besides all the useless junk, this exception actually tells you what is going on. But it blows up at run time, not at compile time.
+Besides all the useless junk, this exception actually tells you what is going on. But this code blows up at run time, not at compile time.
