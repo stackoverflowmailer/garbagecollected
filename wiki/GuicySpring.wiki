@@ -4,7 +4,7 @@
 
 As a follow-up to the talk I gave at the [http://java.profict.nl Profict Wintercamp], this document shows the demo application I prepared, which has one Guice and two Spring implementations. Using that example I showed off some of Guice's excellent error handling features, and how the corresponding Spring code handles those. For that content, take a look [SpringAndGuiceErrors over here].
 
-The Spring version(s) of the demo also demonstrate Spring 2.5's annotation-driven configuration, for those who are interested.
+The Spring version(s) of the demo demonstrate Spring 2.5's annotation-driven configuration options.
 
 The Guice example uses Guice 1.0, the Spring examples use Spring 2.5.3.
 
