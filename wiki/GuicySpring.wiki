@@ -1,4 +1,4 @@
-#summary Guicy Spring.
+#summary Comparing Guice-inspired Spring 2.5 features with the real deal.
 
 = Introduction =
 
