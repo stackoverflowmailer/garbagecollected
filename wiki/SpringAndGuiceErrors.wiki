@@ -1,0 +1,19 @@
+#summary Comparing Guice's error handling with Spring's.
+
+= Introduction =
+
+This is example code that randomly compares Guice error handling with Spring error handling. This uses the example shown [GuicySpring here].
+
+Guice's error handling is one of the framework's great strengths.
+  * Lots of mistakes get detected at compile time.
+  * You will see all the mistakes you made in one go, not only the first one.
+  * Guice links to the offending configuration code in the error message, on which you can click to navigate to the line of configuration that matters (Java IDE feature).
+  * Guice's error messages actually help.
+
+= One =
+
+= Two =
+
+= Three =
+
+= Four = 
