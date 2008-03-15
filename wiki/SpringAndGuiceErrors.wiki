@@ -11,6 +11,67 @@ Guice's error handling is one of the framework's great strengths.
   * Guice's error messages actually help.
 
 = One =
+Typo in Guice's `@Named` or Spring's corresponding `@Qualifier` configuration.
+
+Guice:
+{{{
+bindConstant().annotatedWith(Names.named("colory")).to("White");
+}}}
+
+Guice Result:
+{{{
+Exception in thread "main" com.google.inject.CreationException: Guice configuration errors:
+
+1) Error at demo.Cap.<init>(Cap.java:10):
+ Binding to java.lang.String annotated with @com.google.inject.name.Named(value=color) not found. Annotations on other bindings to that type include: [@com.google.inject.name.Named(value=colory)]
+
+1 error[s]
+	at com.google.inject.BinderImpl.createInjector(BinderImpl.java:277)
+	at com.google.inject.Guice.createInjector(Guice.java:79)
+	at com.google.inject.Guice.createInjector(Guice.java:53)
+	at com.google.inject.Guice.createInjector(Guice.java:43)
+	at demo.error.Error1.main(Error1.java:14)
+}}}
+
+As you can see, Guice's message is helpful, and shows you the annotation that would have been right.
+
+Spring:
+{{{
+<bean class="java.lang.String" factory-method="valueOf">
+    <constructor-arg value="White"/>
+    <!-- Typo in value -->
+    <qualifier value="colory"/>
+</bean>
+}}}
+
+Spring Result (I added some line breaks):
+{{{
+Exception in thread "main" org.springframework.beans.factory.UnsatisfiedDependencyException: 
+Error creating bean with name 'demo.spring.xml.Cap#0' defined in class path resource [demo/spring/xml/error/error1.xml]:
+Unsatisfied dependency expressed through constructor argument with index 0 of type [java.lang.String]: 
+No unique bean of type [java.lang.String] is defined: Unsatisfied dependency of type [class java.lang.String]: expected at least 1 matching bean
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:570)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:190)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:893)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:803)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:437)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory$1.run(AbstractAutowireCapableBeanFactory.java:404)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:375)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:263)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:170)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:260)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:184)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:163)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:430)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:729)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:381)
+	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:139)
+	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:83)
+	at demo.spring.xml.error.Error1.main(Error1.java:11)
+}}}
+
+Expected at least 1 matching bean? So did I, man.
 
 = Two =
 
