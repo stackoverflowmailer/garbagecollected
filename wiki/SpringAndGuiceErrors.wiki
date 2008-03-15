@@ -74,6 +74,56 @@ No unique bean of type [java.lang.String] is defined: Unsatisfied dependency of 
 Expected at least 1 matching bean? So did I, man.
 
 = Two =
+Binding to a regular class where an annotation is required.
+
+Guice:
+{{{
+bind(Cap.class).annotatedWith(Cap.class).to(Cap.class);
+}}}
+
+Guice Result:
+{{{
+Compile error.
+}}}
+
+Guice will not compile this code, because the Java compiler will make sure that you pass in an annotation class.
+
+Spring:
+{{{
+<bean class="demo.spring.xml.Cap">
+    <qualifier type="demo.spring.xml.Cap"/>
+</bean>
+}}}
+
+Spring Result (Added line breaks):
+{{{
+org.springframework.beans.factory.UnsatisfiedDependencyException: 
+Error creating bean with name 'demo.spring.xml.Smurf#0' defined in class path resource [demo/spring/xml/error/error2.xml]:
+Unsatisfied dependency expressed through constructor argument with index 0 of type [demo.spring.xml.Cap]:
+No unique bean of type [demo.spring.xml.Cap] is defined: Unsatisfied dependency of type [class demo.spring.xml.Cap]: expected at least 1 matching bean
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:570)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:190)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:893)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:803)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:437)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory$1.run(AbstractAutowireCapableBeanFactory.java:404)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:375)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:263)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:170)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:260)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:184)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:163)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:430)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:729)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:381)
+	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:139)
+	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:83)
+	at demo.spring.xml.error.Error2.main(Error2.java:11)
+
+}}}
+
+Rrriiight.
 
 = Three =
 
