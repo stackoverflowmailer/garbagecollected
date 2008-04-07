@@ -1,4 +1,5 @@
 #summary Comparing Guice's error handling with Spring's.
+#labels Featured
 
 = Introduction =
 
