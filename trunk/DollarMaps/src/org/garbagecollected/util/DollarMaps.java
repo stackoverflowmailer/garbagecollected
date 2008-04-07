@@ -236,7 +236,11 @@ public class DollarMaps {
         }
     }
     
-    /** Helper class that enables easy iteration for {@link $$} instances. */
+    /** 
+     * Helper class that enables easy iteration for {@link $$} instances. 
+     * @see $$#asEasy()
+     * @see $$#asEasy(Class)
+     */
     public static class Easy<T> implements Iterable<T[]> {
         private final Iterable<Entry<T, T>> m;
         private final Class<T> clazz;
