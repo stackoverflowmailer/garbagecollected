@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2008 Robbie Vanbrabant
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -126,26 +126,50 @@ public class DollarMaps {
             m.putAll(initializer);
         }
         
+        /**
+         * Add the given key/value pair to the current {@link $} build.
+         * @param key the key to use
+         * @param value the value that goes with the given key
+         * @return <code>this</code>
+         */
         @SuppressWarnings("all") // remove "uses constructor name" warning
         public $<K, V> $(K key, V value) {
             m.put(key, value);
             return this;
         }
+        /**
+         * @return this {@link $} instance as a {@link HashMap}.
+         */
         public Map<K, V> asHashMap() {
             return new HashMap<K, V>(m);
         }
+        /**
+         * @return this {@link $} instance as a {@link TreeMap}.
+         */
         public Map<K, V> asTreeMap() {
             return new TreeMap<K, V>(m);
         }
+        /**
+         * @return this {@link $} instance as a {@link ConcurrentHashMap}.
+         */
         public Map<K, V> asConcurrentHashMap() {
             return new ConcurrentHashMap<K, V>(m);
         }
+        /**
+         * @return this {@link $} instance as a {@link LinkedHashMap}.
+         */
         public Map<K,V> asLinkedHashMap() {
             return new LinkedHashMap<K, V>(m); // defensive copy
         }
+        /**
+         * @return this {@link $} instance as a {@link WeakHashMap}.
+         */
         public Map<K,V> asWeakHashMap() {
             return new WeakHashMap<K, V>(m);
         }
+        /**
+         * @see java.lang.Iterable#iterator()
+         */
         public Iterator<Entry<K, V>> iterator() {
             return new Iterator<Entry<K,V>>() {
                 private Iterator<Entry<K,V>> iter = m.entrySet().iterator();
@@ -206,12 +230,24 @@ public class DollarMaps {
                 this.$(e.getKey(), e.getValue());
             }
         }
+        
+        /**
+         * {@inheritDoc}
+         */
         @SuppressWarnings("all") // remove "uses constructor name" warning
         public $$<T> $(T key, T value) {
             super.$(key, value);
             recordIfNull(key);
             return this;
         }
+        /**
+         * Gets the built {@link Map} data as an instance of {@link Easy}.
+         * This allows for easier iteration and will typically be used inside
+         * of <code>for</code> loops.
+         * @param clazz the type of the elements in the {@link Map} entries
+         * @return an {@link Easy} instance
+         * @see #asEasy()
+         */
         public Easy<T> asEasy(Class<T> clazz) {
             return new Easy<T>(this, clazz);
         }
@@ -219,7 +255,9 @@ public class DollarMaps {
          * Attempt an Easy conversion using a random key's type.
          * Only use this method when there is no <code>null</code> key
          * in the map. If there is, use {@link #asEasy(Class)} instead.
+         * @return an {@link Easy} instance
          * @throws NullPointerException if the map contains a null key
+         * @see #asEasy(Class)
          */
         @SuppressWarnings("unchecked")
         public Easy<T> asEasy() {
@@ -269,6 +307,9 @@ public class DollarMaps {
             this.m = m;
             this.clazz = clazz;
         }
+        /**
+         * @see java.lang.Iterable#iterator()
+         */
         public Iterator<T[]> iterator() {
             final List<T[]> list = new LinkedList<T[]>();
             for(Entry<T,T> e : m) {
