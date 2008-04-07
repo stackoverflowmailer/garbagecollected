@@ -23,7 +23,8 @@ public class DollarMapsTest {
     @Test
     public void $returnedMapIsOK() {
         Map<Integer, String> map = $(1, "value").asHashMap();
-        assertTrue("Expecting a HashMap", HashMap.class.isAssignableFrom(map.getClass()));
+        assertTrue("Expecting a HashMap", 
+                   HashMap.class.isAssignableFrom(map.getClass()));
         assertNotNull(map);
         assertEquals(1, map.size());
         Entry<Integer, String> entry = map.entrySet().iterator().next();
