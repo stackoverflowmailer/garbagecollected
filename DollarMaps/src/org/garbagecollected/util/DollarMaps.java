@@ -35,16 +35,16 @@ import java.util.concurrent.ConcurrentHashMap;
  * <p>
  * Examples:
  * <pre>
- * Map<Integer, String> map = $(1,"one").$(2,"two").$(3,"three").asHashMap();
+ * Map&lt;Integer, String&gt; map = $(1,"one").$(2,"two").$(3,"three").asHashMap();
  * 
  * // $ objects are iterable      
- * for(Entry<Integer, String> e : $(1,"one").$(2,"two")) {
- *     System.out.println(e.getKey() + " " + e.getValue());
+ * for(Entry&lt;Integer, String&gt; e : $(1,"one").$(2,"two")) {
+ *     System.out.println(String.format("%s => %s", e.getKey(), e.getValue()));
  * }
  * 
- * // same type for both key and value can use $$ syntax for easier iteration
+ * // start with $$ for easier iteration
  * for(String[] s : $$("1","one").$("2", "two").asEasy()) {
- *     System.out.println(s[0] + " " + s[1]);
+ *     System.out.println(String.format("%s => %s", s[0], s[1]));
  * }
  * </pre>
  * @author <a href="http://garbagecollected.org">Robbie Vanbrabant</a>
