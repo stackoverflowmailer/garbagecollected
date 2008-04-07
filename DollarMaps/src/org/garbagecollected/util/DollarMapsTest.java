@@ -4,7 +4,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static org.garbagecollected.util.DollarMaps.$;
-import static org.garbagecollected.util.DollarMaps.$$;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -21,14 +20,6 @@ import org.junit.Test;
 
 public class DollarMapsTest {
     
-    @Test
-    public void easyIteration() {
-        // same type for both key and value can use $$ syntax for easier iteration
-        for(String[] s : $$("1","blah1").$("2", "blah2").asEasy()) {
-            System.out.println(s[0] + " " + s[1]);
-        }
-
-    }
     @Test
     public void $returnedMapIsOK() {
         Map<Integer, String> map = $(1, "value").asHashMap();
