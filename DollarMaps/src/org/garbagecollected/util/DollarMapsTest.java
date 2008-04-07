@@ -1,0 +1,119 @@
+package org.garbagecollected.util;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static org.garbagecollected.util.DollarMaps.$;
+import static org.garbagecollected.util.DollarMaps.$$;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.WeakHashMap;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.garbagecollected.util.DollarMaps.$;
+import org.junit.Test;
+
+
+public class DollarMapsTest {
+    
+    @Test
+    public void easyIteration() {
+        // same type for both key and value can use $$ syntax for easier iteration
+        for(String[] s : $$("1","blah1").$("2", "blah2").asEasy()) {
+            System.out.println(s[0] + " " + s[1]);
+        }
+
+    }
+    @Test
+    public void $returnedMapIsOK() {
+        Map<Integer, String> map = $(1, "value").asHashMap();
+        assertTrue("Expecting a HashMap", HashMap.class.isAssignableFrom(map.getClass()));
+        assertNotNull(map);
+        assertEquals(1, map.size());
+        Entry<Integer, String> entry = map.entrySet().iterator().next();
+        assertEquals(Integer.valueOf(1), entry.getKey());
+        assertEquals("value", entry.getValue());
+    }
+    
+    @Test
+    public void $asTreeMap() {
+        Class<?> clazz = 
+            $(1, "value").asTreeMap().getClass();
+        assertTrue("Expecting a TreeMap", 
+                   TreeMap.class.isAssignableFrom(clazz));
+    }
+    @Test
+    public void $asConcurrentHashMap() {
+        Class<?> clazz = 
+            $(1, "value").asConcurrentHashMap().getClass();
+        assertTrue("Expecting a ConcurrentHashMap", 
+                   ConcurrentHashMap.class.isAssignableFrom(clazz));
+    }
+    @Test
+    public void $asLinkedHashMap() {
+        Class<?> clazz = 
+            $(1, "value").asLinkedHashMap().getClass();
+        assertTrue("Expecting a LinkedHashMap", 
+                   LinkedHashMap.class.isAssignableFrom(clazz));
+    }
+    @Test
+    public void $asWeakHashMap() {
+        Class<?> clazz = 
+            $(1, "value").asWeakHashMap().getClass();
+        assertTrue("Expecting a WeakHashMap", 
+                   WeakHashMap.class.isAssignableFrom(clazz));
+    }
+    
+    @Test
+    public void $iterator() {
+        Entry<Integer, String> entry = $(1, "value").iterator().next();
+        assertEquals(Integer.valueOf(1), entry.getKey());
+        assertEquals("value", entry.getValue());
+    }
+    
+    @Test
+    public void initializerWorks() {
+        assertEquals(1, $($(1,"value").asHashMap()).asHashMap().size());
+    }
+    
+    @Test
+    public void chainingWorks() {
+        $.class.isAssignableFrom($(1,"one").$(2, "").getClass());
+    }
+    
+    @Test
+    public void cantModifyUnderlyingMap() {
+        $<Integer, String> dollar = $(1, "value");
+        dollar.asLinkedHashMap().remove(1);
+        assertEquals(1, dollar.asLinkedHashMap().size());
+    }
+    
+    @Test(expected=java.lang.UnsupportedOperationException.class)
+    public void $iteratorRemove() {
+        $(1, "value").iterator().remove();
+    }
+    
+    @Test(expected=java.lang.NullPointerException.class)
+    public void nullPointerRegularConstruction() {
+        $((Integer)null, "value").asConcurrentHashMap();
+    }
+    
+    @Test(expected=java.lang.NullPointerException.class)
+    public void nullPointerWithInitializer() {
+        $($((Integer)null,"value").asHashMap()).asConcurrentHashMap();
+    }
+    
+    @Test
+    public void predictableOrdering() {
+        $<Integer, String> dollar = $(1,"one").$(2, "two").$(3, "three");
+        Iterator<Entry<Integer, String>> iterator = dollar.iterator();
+        assertEquals(Integer.valueOf(1), iterator.next().getKey());
+        assertEquals(Integer.valueOf(2), iterator.next().getKey());
+        assertEquals(Integer.valueOf(3), iterator.next().getKey());
+    }
+}
