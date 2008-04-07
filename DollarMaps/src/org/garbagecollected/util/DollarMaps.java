@@ -94,6 +94,7 @@ public class DollarMaps {
         return new $$<T>(initializer);
     }
     
+    /** Builder for constructing {@link Map} implementations more easily. */
     public static class $<K, V> implements Iterable<Map.Entry<K,V>> {
         // Predictable iteration order
         private final Map<K, V> m = new LinkedHashMap<K, V>();
@@ -165,8 +166,11 @@ public class DollarMaps {
         }
     }
     
-    // The same as $, except that the key and value need to be of the same type.
-    // This enables easier, fail-fast (compile time) key/value iteration.
+    /** 
+     * Builder for constructing {@link Map} implementations which use the same
+     * type for the key and the value. This enables a fail-fast (compile time)
+     * and easy-on-the-eye syntax for {@link Map} iteration.
+     */
     public static class $$<T> extends $<T,T> {
         private boolean hasNullKeys;
         
@@ -232,6 +236,7 @@ public class DollarMaps {
         }
     }
     
+    /** Helper class that enables easy iteration for {@link $$} instances. */
     public static class Easy<T> implements Iterable<T[]> {
         private final Iterable<Entry<T, T>> m;
         private final Class<T> clazz;
