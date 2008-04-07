@@ -74,6 +74,16 @@ public class DollarMaps {
         return new $<K, V>(key, value);
     }
     
+    /**
+     * The same as {@link #$(Object, Object)}, except that this method
+     * allows you to initialize the build with an already existing map instead
+     * of just a single key and value pair.
+     * 
+     * @param <K> the map's key type
+     * @param <V> the map's value type
+     * @param initializer a {@link Map} with initial values
+     * @return a {@link $} instance initialized with the given map
+     */
     public static <K, V> $<K, V> $(Map<K,V> initializer) {
         return new $<K, V>(initializer);
     }
@@ -90,6 +100,16 @@ public class DollarMaps {
     public static <T> $$<T> $$(T key, T value) {
         return new $$<T>(key, value);
     }
+    
+    /**
+     * The same as {@link #$$(Object, Object)}, except that this method
+     * allows you to initialize the build with an already existing map instead
+     * of just a single key and value pair.
+     * 
+     * @param <T> the type for both the keys and the values
+     * @param initializer a {@link Map} with initial values
+     * @return a {@link $$} instance initialized with the given map
+     */
     public static <T> $$<T> $$(Map<T,T> initializer) {
         return new $$<T>(initializer);
     }
