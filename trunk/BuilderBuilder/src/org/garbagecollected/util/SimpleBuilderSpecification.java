@@ -18,4 +18,12 @@ public class SimpleBuilderSpecification implements BuilderSpecification {
     return args == null
         && !Void.TYPE.isAssignableFrom(method.getReturnType());
   }
+
+  public String readerIdentity(Method reader) {
+    return reader.getName();
+  }
+
+  public String writerIdentity(Method writer) {
+    return writer.getName();
+  }
 }

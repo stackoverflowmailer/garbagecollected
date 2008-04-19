@@ -84,13 +84,13 @@ public class BuilderFactory {
       } else if (isObjectEquals(method)) {
         return equals(args[0]);
       } else if (spec.isWriter(method, args)) {
-        methodsToValues.put(method.getName(), args[0]);
+        methodsToValues.put(spec.writerIdentity(method), args[0]);
         return proxy;
       } else if (spec.isReader(method, args)) {
         if (isBuildReader(method)) {
           return callback.call((T) proxy);
         } else {
-          Object value = methodsToValues.get(method.getName());
+          Object value = methodsToValues.get(spec.readerIdentity(method));
           if (value == null && method.getReturnType().isPrimitive()) {
             return PRIMITIVE_DEFAULTS.get(method.getReturnType());
           }
