@@ -51,4 +51,44 @@ public class Example {
         .optional1(4).build()
     );
   }
+  
+  public static class ManualBuilder implements ExampleBuilder {
+    private int optional1;
+    private char optional2;
+    private final String mandatory;
+    public ManualBuilder(String mandatory) {
+      this.mandatory = mandatory;
+    }
+    
+    @Override
+    public ExampleBuilder optional1(int optional1) {
+      // TODO Auto-generated method stub
+      this.optional1 = optional1;
+      return this;
+    }
+
+    @Override
+    public int getOptional1() {
+      return optional1;
+    }
+
+    @Override
+    public ExampleBuilder optional2(char optional2) {
+      this.optional2 = optional2;
+      return this;
+    }
+
+    @Override
+    public char getOptional2() {
+      // TODO Auto-generated method stub
+      return optional2;
+    }
+
+    @Override
+    public Example build() {
+      // TODO Auto-generated method stub
+      return new Example(this, mandatory);
+    }
+    
+  }
 }
