@@ -20,6 +20,7 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static org.garbagecollected.util.DollarMaps.$;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -128,14 +129,15 @@ public class DollarMapsTest {
     @Test
     public void wildCards() {
       // TODO poorly handled use case
-      Map<Class, ?> TYPES =  $((Class)int.class, (Object)0)
-                            .$(long.class, 0L)
-                            .$(boolean.class, false)
-                            .$(byte.class, 0)
-                            .$(short.class, 0)
-                            .$(float.class, 0.0F)
-                            .$(double.class, 0.0D)
-                            .$(char.class, '\u0000')
-                            .asHashMap();
+      Map<Class<?>,?> TYPES =  $(Collections.<Class<?>,Object>emptyMap())
+                              .$(int.class, 0)
+                              .$(long.class, 0L)
+                              .$(boolean.class, false)
+                              .$(byte.class, 0)
+                              .$(short.class, 0)
+                              .$(float.class, 0.0F)
+                              .$(double.class, 0.0D)
+                              .$(char.class, '\u0000')
+                              .asHashMap();
     }
 }
