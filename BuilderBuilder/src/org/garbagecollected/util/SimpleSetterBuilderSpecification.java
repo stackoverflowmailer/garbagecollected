@@ -25,7 +25,7 @@ public class SimpleSetterBuilderSpecification implements BuilderSpecification {
   }
 
   public String readerIdentity(Method reader) {
-    return reader.getName().substring(3, reader.getName().length());
+    return reader.getName().substring(3, reader.getName().length()).toLowerCase();
   }
 
   public String writerIdentity(Method writer) {

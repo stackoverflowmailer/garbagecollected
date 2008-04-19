@@ -22,19 +22,19 @@ public class Example {
 
   private Example(ExampleBuilder builder, String mandatory) {
     this.mandatory = mandatory;
-    this.optional1 = builder.optional1();
-    this.optional2 = builder.optional2();
+    this.optional1 = builder.getOptional1();
+    this.optional2 = builder.getOptional2();
   }
 
   public interface ExampleBuilder extends Builder<Example> {
     ExampleBuilder optional1(int optional1);
     ExampleBuilder optional2(char optional2);
-    int optional1();
-    char optional2();
+    int getOptional1();
+    char getOptional2();
   }
 
   public static ExampleBuilder builder(final String mandatory) {
-    return BuilderFactory.make(ExampleBuilder.class,
+    return BuilderFactory.make(new SimpleSetterBuilderSpecification(ExampleBuilder.class), ExampleBuilder.class,
       new BuilderCallback<ExampleBuilder, Example>() {
         public Example call(ExampleBuilder builder) throws Exception {
           return new Example(builder, mandatory);
@@ -52,10 +52,8 @@ public class Example {
   
   public static void main(String[] args) {
     System.out.println(Example.builder("Mandatory!")
-        .optional1(35)
-        .optional2('A')
-        .build()
-        .toString()
+        .optional1(4)
+        .getOptional1()
     );
   }
 }
