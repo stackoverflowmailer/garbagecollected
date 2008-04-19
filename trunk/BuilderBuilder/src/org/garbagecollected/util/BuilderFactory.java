@@ -87,7 +87,7 @@ public class BuilderFactory {
         methodsToValues.put(spec.writerIdentity(method), args[0]);
         return proxy;
       } else if (spec.isReader(method, args)) {
-        if (isBuildReader(method)) {
+        if (isBuilder(method)) {
           return callback.call((T) proxy);
         } else {
           Object value = methodsToValues.get(spec.readerIdentity(method));
@@ -103,7 +103,7 @@ public class BuilderFactory {
       }
     }
 
-    private boolean isBuildReader(Method method) {
+    private boolean isBuilder(Method method) {
       return method.equals(Builder.class.getMethods()[0]);
     }
     
