@@ -15,6 +15,7 @@
  */
 package org.garbagecollected.util;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -62,6 +63,29 @@ public class BuilderFactory {
     return (T) Proxy.newProxyInstance(spec.getClassLoader(),
         new Class[] { spec },
         new BuilderInvocationHandler<T, V>(getSpecification(type, spec), callback));
+  }
+  
+  @SuppressWarnings("unchecked") // java.lang.reflect.Proxy is not generic
+  public <T extends Builder<V>, V> T makeRisky(final Class<T> spec, final Class<V> target, final Object... constructorArgs) {
+    BuilderCallback<T, V> callback = new BuilderCallback<T, V>() {
+      public V call(T builder) throws Exception {
+        Class<?>[] classes = new Class<?>[constructorArgs.length+1];
+        classes[0] = spec;
+        for (int i = 0; i < constructorArgs.length; i++) {
+          classes[i+1]  = constructorArgs[i].getClass();
+        }
+        
+        Object[] actualArgs = new Object[constructorArgs.length+1];
+        actualArgs[0] = builder;
+        System.arraycopy(constructorArgs, 0, actualArgs, 1, constructorArgs.length);
+        
+        Constructor<V> constructor = target.getDeclaredConstructor(classes);
+        constructor.setAccessible(true); // Eww..
+        
+        return constructor.newInstance(actualArgs);
+      }
+    };
+    return make(spec, callback);
   }
   
   private BuilderSpecification getSpecification(BuilderType type, Class<?> spec) {

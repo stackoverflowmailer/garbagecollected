@@ -34,12 +34,8 @@ public class Example {
   }
 
   public static ExampleBuilder builder(final String mandatory) {
-    return new BuilderFactory(BuilderType.SIMPLE_SETTER).make(ExampleBuilder.class,
-      new BuilderCallback<ExampleBuilder, Example>() {
-        public Example call(ExampleBuilder builder) throws Exception {
-          return new Example(builder, mandatory);
-        }
-    });
+    return new BuilderFactory(BuilderType.SIMPLE_SETTER)
+                   .makeRisky(ExampleBuilder.class, Example.class, mandatory);
   }
 
   public String toString() {
