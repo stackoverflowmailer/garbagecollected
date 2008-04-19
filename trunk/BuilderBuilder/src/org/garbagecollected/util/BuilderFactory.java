@@ -25,6 +25,11 @@ import java.util.Map;
  * Creates objects that fake a builder object for a given {@link Builder} type
  * based interface. Expects that build "reader" and "writer" methods have the
  * same name.
+ * <p>
+ * Returned builder objects implement {@link Object#toString()} and
+ * forward calls to <code>equals</code> or <code>hashCode</code>
+ * to the {@link Object} class' default {@link Object#equals(Object)} and
+ * {@link Object#hashCode()} implementations.
  * 
  * @author Robbie Vanbrabant (robbie.vanbrabant@gmail.com)
  */
@@ -124,7 +129,7 @@ public class BuilderFactory {
     
     public boolean equals(Object that) {
       if (Proxy.isProxyClass(that.getClass()))
-        return this == Proxy.getInvocationHandler(that);
+        return super.equals(Proxy.getInvocationHandler(that));
       return false;
     }
     
