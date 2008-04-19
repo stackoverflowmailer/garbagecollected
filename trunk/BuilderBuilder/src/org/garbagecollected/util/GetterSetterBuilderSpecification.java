@@ -4,8 +4,8 @@ import java.lang.reflect.Method;
 
 public class GetterSetterBuilderSpecification implements BuilderSpecification {
   private final Class<?> spec;
-  
-  public GetterSetterBuilderSpecification(Class<?> spec) {
+
+  GetterSetterBuilderSpecification(Class<?> spec) {
     this.spec = spec;
   }
   

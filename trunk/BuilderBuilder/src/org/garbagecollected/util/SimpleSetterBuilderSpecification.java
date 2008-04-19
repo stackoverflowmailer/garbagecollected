@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 public class SimpleSetterBuilderSpecification implements BuilderSpecification {
   private final Class<?> spec;
   
-  public SimpleSetterBuilderSpecification(Class<?> spec) {
+  SimpleSetterBuilderSpecification(Class<?> spec) {
     this.spec = spec;
   }
   
