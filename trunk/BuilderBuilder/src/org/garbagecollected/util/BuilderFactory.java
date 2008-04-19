@@ -65,6 +65,10 @@ public class BuilderFactory {
         new BuilderInvocationHandler<T, V>(getSpecification(type, spec), callback));
   }
   
+  /**
+   * Trades compile time error checking for run time error checking for the
+   * sake of code brevity.
+   */
   @SuppressWarnings("unchecked") // java.lang.reflect.Proxy is not generic
   public <T extends Builder<V>, V> T makeRisky(final Class<T> spec, final Class<V> target, final Object... constructorArgs) {
     BuilderCallback<T, V> callback = new BuilderCallback<T, V>() {
