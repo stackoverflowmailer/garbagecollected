@@ -65,7 +65,9 @@ public class BuilderFactory {
     @SuppressWarnings("unchecked") // java.lang.reflect.Proxy is not generic
     public Object invoke(Object proxy, Method method, Object[] args)
         throws Throwable {
-      if (isWriter(method, args)) {
+      if (isObjectToString(method)) {
+        return toString();
+      } else if (isWriter(method, args)) {
         methodsToValues.put(method.getName(), args[0]);
         return proxy;
       } else if (isReader(method, args)) {
@@ -98,6 +100,15 @@ public class BuilderFactory {
 
     private boolean isBuildReader(Method method) {
       return method.equals(Builder.class.getMethods()[0]);
+    }
+    
+    private boolean isObjectToString(Method method) {
+      return "toString".equals(method.getName()) 
+             && method.getParameterTypes().length == 0;
+    }
+    
+    public String toString() {
+      return methodsToValues.toString();
     }
   }
 }
