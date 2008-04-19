@@ -123,4 +123,19 @@ public class DollarMapsTest {
         assertEquals(Integer.valueOf(2), iterator.next().getKey());
         assertEquals(Integer.valueOf(3), iterator.next().getKey());
     }
+    
+    @SuppressWarnings({"unchecked", "unused"})
+    @Test
+    public void wildCards() {
+      // TODO poorly handled use case
+      Map<Class, ?> TYPES =  $((Class)int.class, (Object)0)
+                            .$(long.class, 0L)
+                            .$(boolean.class, false)
+                            .$(byte.class, 0)
+                            .$(short.class, 0)
+                            .$(float.class, 0.0F)
+                            .$(double.class, 0.0D)
+                            .$(char.class, '\u0000')
+                            .asHashMap();
+    }
 }
