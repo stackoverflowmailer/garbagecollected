@@ -15,29 +15,29 @@
  */
 package org.garbagecollected.util;
 
-public class SomeObject {
+public class Example {
   private final String mandatory;
   private final int optional1;
   private final char optional2;
 
-  private SomeObject(SomeObjectBuilder builder, String mandatory) {
+  private Example(ExampleBuilder builder, String mandatory) {
     this.mandatory = mandatory;
     this.optional1 = builder.optional1();
     this.optional2 = builder.optional2();
   }
 
-  public interface SomeObjectBuilder extends Builder<SomeObject> {
-    SomeObjectBuilder optional1(int optional1);
-    SomeObjectBuilder optional2(char optional2);
+  public interface ExampleBuilder extends Builder<Example> {
+    ExampleBuilder optional1(int optional1);
+    ExampleBuilder optional2(char optional2);
     int optional1();
     char optional2();
   }
 
-  public static SomeObjectBuilder builder(final String mandatory) {
-    return BuilderFactory.make(SomeObjectBuilder.class,
-      new BuilderCallback<SomeObjectBuilder, SomeObject>() {
-        public SomeObject call(SomeObjectBuilder builder) throws Exception {
-          return new SomeObject(builder, mandatory);
+  public static ExampleBuilder builder(final String mandatory) {
+    return BuilderFactory.make(ExampleBuilder.class,
+      new BuilderCallback<ExampleBuilder, Example>() {
+        public Example call(ExampleBuilder builder) throws Exception {
+          return new Example(builder, mandatory);
         }
     });
   }
@@ -51,7 +51,7 @@ public class SomeObject {
   }
   
   public static void main(String[] args) {
-    System.out.println(SomeObject.builder("Mandatory!")
+    System.out.println(Example.builder("Mandatory!")
         .optional1(35)
         .optional2('A')
         .build()
