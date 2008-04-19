@@ -1,5 +1,12 @@
 package org.garbagecollected.util;
 
 public enum BuilderType {
-  GETTER_SETTER, SIMPLE, SIMPLE_SETTER
+  /** Getters and Setters. */
+  GETTER_SETTER, 
+  
+  /** Expects that build "reader" and "writer" methods have the same name. */
+  SIMPLE, 
+  
+  /** Getters, but simple setters (e.g. getName() and name("John")). */
+  SIMPLE_SETTER
 }

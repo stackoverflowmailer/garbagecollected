@@ -23,8 +23,7 @@ import java.util.Map;
 
 /**
  * Creates objects that fake a builder object for a given {@link Builder} type
- * based interface. Expects that build "reader" and "writer" methods have the
- * same name.
+ * based interface.
  * <p>
  * Returned builder objects implement {@link Object#toString()} and
  * forward calls to <code>equals</code> or <code>hashCode</code>
