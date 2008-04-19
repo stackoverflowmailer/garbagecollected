@@ -81,8 +81,11 @@ public class BuilderFactory {
         
         Constructor<V> constructor = target.getDeclaredConstructor(classes);
         constructor.setAccessible(true); // Eww..
-        
-        return constructor.newInstance(actualArgs);
+        try {
+          return constructor.newInstance(actualArgs);
+        } finally {
+          constructor.setAccessible(false);
+        }
       }
     };
     return make(spec, callback);
