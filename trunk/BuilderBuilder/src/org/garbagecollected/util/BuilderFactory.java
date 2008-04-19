@@ -86,17 +86,14 @@ public class BuilderFactory {
       } else if (spec.isWriter(method, args)) {
         methodsToValues.put(spec.writerIdentity(method), args[0]);
         return proxy;
+      } else if (isBuilder(method)) {
+        return callback.call((T) proxy);
       } else if (spec.isReader(method, args)) {
-        if (isBuilder(method)) {
-          return callback.call((T) proxy);
-        } else {
-          Object value = methodsToValues.get(spec.readerIdentity(method));
-          if (value == null && method.getReturnType().isPrimitive()) {
-            return PRIMITIVE_DEFAULTS.get(method.getReturnType());
-          }
-          return value;
+        Object value = methodsToValues.get(spec.readerIdentity(method));
+        if (value == null && method.getReturnType().isPrimitive()) {
+          return PRIMITIVE_DEFAULTS.get(method.getReturnType());
         }
-
+        return value;
       } else {
         throw new IllegalStateException(String.format(
             "method '%s' is not a reader or a writer", method.getName()));
