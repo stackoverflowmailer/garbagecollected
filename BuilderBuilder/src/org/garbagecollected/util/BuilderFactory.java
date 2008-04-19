@@ -67,6 +67,10 @@ public class BuilderFactory {
         throws Throwable {
       if (isObjectToString(method)) {
         return toString();
+      } else if (isObjectHashCode(method)) {
+        return hashCode();
+      } else if (isObjectEquals(method)) {
+        return equals(args[0]);
       } else if (isWriter(method, args)) {
         methodsToValues.put(method.getName(), args[0]);
         return proxy;
@@ -105,6 +109,27 @@ public class BuilderFactory {
     private boolean isObjectToString(Method method) {
       return "toString".equals(method.getName()) 
              && method.getParameterTypes().length == 0;
+    }
+    
+    private boolean isObjectHashCode(Method method) {
+      return "hashCode".equals(method.getName()) 
+             && method.getParameterTypes().length == 0;
+    }
+    
+    private boolean isObjectEquals(Method method) {
+      return "equals".equals(method.getName()) 
+             && method.getParameterTypes().length == 1
+             && method.getParameterTypes()[0].equals(Object.class);
+    }
+    
+    public boolean equals(Object that) {
+      if (Proxy.isProxyClass(that.getClass()))
+        return this == Proxy.getInvocationHandler(that);
+      return false;
+    }
+    
+    public int hashCode() {
+      return super.hashCode();
     }
     
     public String toString() {
