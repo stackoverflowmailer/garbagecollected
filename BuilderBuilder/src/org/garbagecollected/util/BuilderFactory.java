@@ -50,21 +50,28 @@ public class BuilderFactory {
   @SuppressWarnings("unchecked") // java.lang.reflect.Proxy is not generic
   public static <T extends Builder<V>, V> T make(Class<T> spec,
       BuilderCallback<T, V> callback) {
+    return make(new SimpleBuilderSpecification(spec), spec, callback);
+  }
+  
+  @SuppressWarnings("unchecked") // java.lang.reflect.Proxy is not generic
+  public static <T extends Builder<V>, V> T make(
+      BuilderSpecification propSpec, Class<T> spec,
+      BuilderCallback<T, V> callback) {
     return (T) Proxy.newProxyInstance(spec.getClassLoader(),
         new Class[] { spec },
-        new BuilderInvocationHandler<T, V>(spec, callback));
+        new BuilderInvocationHandler<T, V>(propSpec, callback));
   }
 
   private static class BuilderInvocationHandler<T extends Builder<V>, V>
       implements InvocationHandler {
-    private Class<T> spec;
-    private BuilderCallback<T, V> callback;
+    private final BuilderSpecification spec;
+    private final BuilderCallback<T, V> callback;
     private Map<String, Object> methodsToValues = new HashMap<String, Object>();
 
-    private BuilderInvocationHandler(Class<T> spec,
-        BuilderCallback<T, V> callback) {
-      this.spec = spec;
+    private BuilderInvocationHandler(BuilderSpecification spec,
+                                     BuilderCallback<T, V> callback) {
       this.callback = callback;
+      this.spec = spec;
     }
 
     @SuppressWarnings("unchecked") // java.lang.reflect.Proxy is not generic
@@ -76,10 +83,10 @@ public class BuilderFactory {
         return hashCode();
       } else if (isObjectEquals(method)) {
         return equals(args[0]);
-      } else if (isWriter(method, args)) {
+      } else if (spec.isWriter(method, args)) {
         methodsToValues.put(method.getName(), args[0]);
         return proxy;
-      } else if (isReader(method, args)) {
+      } else if (spec.isReader(method, args)) {
         if (isBuildReader(method)) {
           return callback.call((T) proxy);
         } else {
@@ -92,19 +99,8 @@ public class BuilderFactory {
 
       } else {
         throw new IllegalStateException(String.format(
-            "method '%s' is not a getter or a single argument setter",
-                    method.getName()));
+            "method '%s' is not a reader or a writer", method.getName()));
       }
-    }
-
-    private boolean isWriter(Method method, Object[] args) {
-      return (args != null && args.length == 1 &&
-              spec.isAssignableFrom(method.getReturnType()));
-    }
-
-    private boolean isReader(Method method, Object[] args) {
-      return args == null
-          && !Void.TYPE.isAssignableFrom(method.getReturnType());
     }
 
     private boolean isBuildReader(Method method) {
