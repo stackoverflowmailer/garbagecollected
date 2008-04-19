@@ -34,6 +34,8 @@ import java.util.Map;
  * @author Robbie Vanbrabant (robbie.vanbrabant@gmail.com)
  */
 public class BuilderFactory {
+  private BuilderFactory() {}
+  
   @SuppressWarnings("serial")
   private static Map<Class<?>, ?> PRIMITIVE_DEFAULTS = 
     new HashMap<Class<?>, Object>() {{

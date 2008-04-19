@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 public class SimpleBuilderSpecification implements BuilderSpecification {
   private final Class<?> spec;
   
-  public SimpleBuilderSpecification(Class<?> spec) {
+  SimpleBuilderSpecification(Class<?> spec) {
     this.spec = spec;
   }
   
