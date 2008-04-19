@@ -32,9 +32,7 @@ import java.util.Map;
  * 
  * @author Robbie Vanbrabant (robbie.vanbrabant@gmail.com)
  */
-public class BuilderFactory {
-  private BuilderFactory() {}
-  
+public class BuilderFactory {  
   @SuppressWarnings("serial")
   private static Map<Class<?>, ?> PRIMITIVE_DEFAULTS = 
     new HashMap<Class<?>, Object>() {{
@@ -48,22 +46,25 @@ public class BuilderFactory {
       put(char.class, '\u0000');
     }};
 
-  @SuppressWarnings("unchecked") // java.lang.reflect.Proxy is not generic
-  public static <T extends Builder<V>, V> T make(Class<T> spec,
-      BuilderCallback<T, V> callback) {
-    return make(BuilderType.SIMPLE, spec, callback);
+  private final BuilderType type;
+  
+  public BuilderFactory(BuilderType type) {
+    this.type = type;
   }
   
+  public BuilderFactory() {
+    this.type = BuilderType.GETTER_SETTER;
+  }
+   
   @SuppressWarnings("unchecked") // java.lang.reflect.Proxy is not generic
-  public static <T extends Builder<V>, V> T make(BuilderType type, 
-                                                 Class<T> spec,
-                                                 BuilderCallback<T, V> callback) {
+  public <T extends Builder<V>, V> T make(Class<T> spec,
+                                          BuilderCallback<T, V> callback) {
     return (T) Proxy.newProxyInstance(spec.getClassLoader(),
         new Class[] { spec },
         new BuilderInvocationHandler<T, V>(getSpecification(type, spec), callback));
   }
   
-  private static BuilderSpecification getSpecification(BuilderType type, Class<?> spec) {
+  private BuilderSpecification getSpecification(BuilderType type, Class<?> spec) {
     switch(type) {
       case SIMPLE: return new SimpleBuilderSpecification(spec);
       case SIMPLE_SETTER: return new SimpleSetterBuilderSpecification(spec);
