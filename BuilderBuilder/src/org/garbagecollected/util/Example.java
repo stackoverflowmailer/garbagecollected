@@ -52,8 +52,7 @@ public class Example {
   
   public static void main(String[] args) {
     System.out.println(Example.builder("Mandatory!")
-        .optional1(4)
-        .getOptional1()
+        .optional1(4).build()
     );
   }
 }
