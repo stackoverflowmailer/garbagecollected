@@ -34,7 +34,7 @@ public class Example {
   }
 
   public static ExampleBuilder builder(final String mandatory) {
-    return BuilderFactory.make(new SimpleSetterBuilderSpecification(ExampleBuilder.class), ExampleBuilder.class,
+    return BuilderFactory.make(BuilderType.SIMPLE_SETTER, ExampleBuilder.class,
       new BuilderCallback<ExampleBuilder, Example>() {
         public Example call(ExampleBuilder builder) throws Exception {
           return new Example(builder, mandatory);

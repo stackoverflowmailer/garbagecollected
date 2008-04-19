@@ -50,16 +50,25 @@ public class BuilderFactory {
   @SuppressWarnings("unchecked") // java.lang.reflect.Proxy is not generic
   public static <T extends Builder<V>, V> T make(Class<T> spec,
       BuilderCallback<T, V> callback) {
-    return make(new SimpleBuilderSpecification(spec), spec, callback);
+    return make(BuilderType.SIMPLE, spec, callback);
   }
   
   @SuppressWarnings("unchecked") // java.lang.reflect.Proxy is not generic
-  public static <T extends Builder<V>, V> T make(
-      BuilderSpecification propSpec, Class<T> spec,
-      BuilderCallback<T, V> callback) {
+  public static <T extends Builder<V>, V> T make(BuilderType type, 
+                                                 Class<T> spec,
+                                                 BuilderCallback<T, V> callback) {
     return (T) Proxy.newProxyInstance(spec.getClassLoader(),
         new Class[] { spec },
-        new BuilderInvocationHandler<T, V>(propSpec, callback));
+        new BuilderInvocationHandler<T, V>(getSpecification(type, spec), callback));
+  }
+  
+  private static BuilderSpecification getSpecification(BuilderType type, Class<?> spec) {
+    switch(type) {
+      case SIMPLE: return new SimpleBuilderSpecification(spec);
+      case SIMPLE_SETTER: return new SimpleSetterBuilderSpecification(spec);
+      case GETTER_SETTER: return new GetterSetterBuilderSpecification(spec);
+    }
+    throw new IllegalArgumentException();
   }
 
   private static class BuilderInvocationHandler<T extends Builder<V>, V>
