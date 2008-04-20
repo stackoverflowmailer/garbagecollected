@@ -163,6 +163,7 @@ public class BuilderFactory {
     }
     
     public boolean equals(Object that) {
+      if (that == null) return false;
       if (Proxy.isProxyClass(that.getClass()))
         return super.equals(Proxy.getInvocationHandler(that));
       return false;
