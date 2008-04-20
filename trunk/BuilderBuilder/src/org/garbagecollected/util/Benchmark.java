@@ -76,7 +76,7 @@ public class Benchmark {
     
     Line noProxyLine = new Line(noProxyXData);
     noProxyLine.setLegend("Manual Builder");
-    noProxyLine.setColor(Color.BLACK);
+    noProxyLine.setColor(Color.BLUE);
     
     LineChart chart = new LineChart(proxyLine, noProxyLine);
     
