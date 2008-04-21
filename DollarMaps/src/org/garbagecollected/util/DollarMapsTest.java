@@ -19,6 +19,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static org.garbagecollected.util.DollarMaps.$;
+import static org.garbagecollected.util.DollarMaps.$$;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -31,6 +32,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.garbagecollected.util.DollarMaps.$;
+import org.garbagecollected.util.DollarMaps.$$;
 import org.junit.Test;
 
 
@@ -123,6 +125,15 @@ public class DollarMapsTest {
         assertEquals(Integer.valueOf(1), iterator.next().getKey());
         assertEquals(Integer.valueOf(2), iterator.next().getKey());
         assertEquals(Integer.valueOf(3), iterator.next().getKey());
+    }
+    
+    @Test
+    public void easyIteration() {
+        $$<String> dollar = $$("1","one").$("2", "two").$("3", "three");
+        int count = 0;
+        for (@SuppressWarnings("unused") String[] s : dollar.asEasy())
+          count++;
+        assertEquals(3, count);
     }
     
     @SuppressWarnings({"unchecked", "unused"})

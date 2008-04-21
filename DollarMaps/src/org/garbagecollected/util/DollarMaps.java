@@ -249,7 +249,7 @@ public class DollarMaps {
          * @see #asEasy()
          */
         public Easy<T> asEasy(Class<T> clazz) {
-            return new Easy<T>(this, clazz);
+            return new Easy<T>(this);
         }
         /** 
          * Attempt an Easy conversion using a random key's type.
@@ -262,7 +262,7 @@ public class DollarMaps {
         @SuppressWarnings("unchecked")
         public Easy<T> asEasy() {
             if (hasNullKeys) throw new NullPointerException();
-            return new Easy<T>(this, (Class<T>)iterator().next().getClass());
+            return new Easy<T>(this);
         }
         
         private void recordIfNull(T key) {
@@ -301,11 +301,9 @@ public class DollarMaps {
      */
     public static class Easy<T> implements Iterable<T[]> {
         private final Iterable<Entry<T, T>> m;
-        private final Class<T> clazz;
 
-        Easy(Iterable<Entry<T, T>> m, Class<T> clazz) {
+        Easy(Iterable<Entry<T, T>> m) {
             this.m = m;
-            this.clazz = clazz;
         }
         /**
          * @see java.lang.Iterable#iterator()
@@ -327,7 +325,7 @@ public class DollarMaps {
         }
         @SuppressWarnings("unchecked")
         private T[] toArray(Entry<T,T> e) {
-           T[] a = (T[])Array.newInstance(this.clazz, 2);
+           T[] a = (T[])Array.newInstance(e.getKey().getClass(), 2);
            a[0] = e.getKey(); a[1] = e.getValue();
            return a;
         }
