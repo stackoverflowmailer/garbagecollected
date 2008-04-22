@@ -244,6 +244,11 @@ public class DollarMaps {
          * Gets the built {@link Map} data as an instance of {@link Easy}.
          * This allows for easier iteration and will typically be used inside
          * of <code>for</code> loops.
+         * <p>
+         * <b>Warning: </b>this is roughly 3-5 times slower than regular
+         * EntrySet iteration. Don't use this with large amounts of data or
+         * for operations that get executed very often.
+         * 
          * @param clazz the type of the elements in the {@link Map} entries
          * @return an {@link Easy} instance
          * @see #asEasy()
