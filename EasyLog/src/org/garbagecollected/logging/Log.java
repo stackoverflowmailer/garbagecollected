@@ -126,7 +126,9 @@ public class Log implements ILog {
       precondition(format != null, "format may not be null");
       precondition(lineStructure.length>0, "Need at least one FormatOption");
       this.format = format + "%n"; // platform independent line break
-      this.lineStructure = lineStructure;
+      this.lineStructure = new FormatOption[lineStructure.length];
+      // defensive copy
+      System.arraycopy(lineStructure, 0, this.lineStructure, 0, lineStructure.length);
     }
 
     public String constructLine(Level level, Object[] provided) {
