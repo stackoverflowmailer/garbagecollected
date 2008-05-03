@@ -31,7 +31,6 @@ public interface ILog {
   /** Disable the given log level. */
   void disable(Level level);
   
-  
   public enum Level {
     LITTLE, NORMAL, MUCH, VERY_MUCH, INSANE
   }
