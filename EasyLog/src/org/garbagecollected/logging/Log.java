@@ -39,7 +39,7 @@ public class Log implements ILog {
   /**
    * Create a new Log that will use the given log format.
    * This controls which calls to 
-   * {@link #publish(org.garbagecollected.logging.Log.Level, Object...)} are valid.
+   * {@link #publish(org.garbagecollected.logging.ILog.Level, Object...)} are valid.
    * Using this constructor the Log will write to System.out.
    * 
    * @param format how each logged line should look
@@ -51,7 +51,7 @@ public class Log implements ILog {
   /**
    * Create a new Log that will use the given log format.
    * This controls which calls to 
-   * {@link #publish(org.garbagecollected.logging.Log.Level, Object...)} are valid.
+   * {@link #publish(org.garbagecollected.logging.ILog.Level, Object...)} are valid.
    * The given OutputStream does NOT get closed by this class.
    * 
    * @param format how each logged line should look
