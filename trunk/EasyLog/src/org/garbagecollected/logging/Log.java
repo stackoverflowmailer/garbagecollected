@@ -20,6 +20,12 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.BitSet;
 
+/** 
+ * Simple logging system that shows how simply logging can
+ * really be.
+ * 
+ * @author Robbie Vanbrabant
+ */
 public class Log implements ILog {
   /** Keeps track of which {@link Level}s are enabled. */
   private BitSet enabled;
@@ -46,6 +52,7 @@ public class Log implements ILog {
    * Create a new Log that will use the given log format.
    * This controls which calls to 
    * {@link #publish(org.garbagecollected.logging.Log.Level, Object...)} are valid.
+   * The given OutputStream does NOT get closed by this class.
    * 
    * @param format how each logged line should look
    * @param os the {@link OutputStream} to which log information will be written
