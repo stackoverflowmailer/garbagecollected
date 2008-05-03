@@ -133,8 +133,8 @@ public class Log implements ILog {
 
     public String constructLine(Level level, Object[] provided) {
       Object[] formatArguments = new Object[lineStructure.length];
-      int index = 0;
-      for (int i = 0; i < lineStructure.length; i++) {
+      
+      for (int i = 0, index = 0; i < lineStructure.length; i++) {
         if (FormatOption.LEVEL == lineStructure[i]) {
           formatArguments[i] = level;
         } else if (FormatOption.THREAD_ID == lineStructure[i]) {
