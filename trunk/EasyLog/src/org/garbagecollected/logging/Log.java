@@ -21,7 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.BitSet;
 
 /** 
- * Simple logging system that shows how simply logging can
+ * Simple logging system that shows how simple logging can
  * really be.
  * 
  * @author Robbie Vanbrabant
