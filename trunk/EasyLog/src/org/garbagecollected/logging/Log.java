@@ -109,10 +109,6 @@ public class Log implements ILog {
   private static void precondition(boolean condition, String msg) {
     if (!condition) throw new IllegalArgumentException(msg);
   }
-  
-  public enum Level {
-    LITTLE, NORMAL, MUCH, VERY_MUCH, INSANE
-  }
 
   public enum FormatOption {
     /** Log Level. */
