@@ -23,8 +23,8 @@ import static org.garbagecollected.logging.Log.FormatOption.RUNTIME_PARAMETER;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 
+import org.garbagecollected.logging.ILog.Level;
 import org.garbagecollected.logging.Log.Format;
-import org.garbagecollected.logging.Log.Level;
 import org.junit.Test;
 
 public class LogTest {

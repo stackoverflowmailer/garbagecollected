@@ -15,8 +15,6 @@
  */
 package org.garbagecollected.logging;
 
-import org.garbagecollected.logging.Log.Level;
-
 /** 
  * Simple logging.
  */
@@ -32,4 +30,9 @@ public interface ILog {
   void enable(Level level);
   /** Disable the given log level. */
   void disable(Level level);
+  
+  
+  public enum Level {
+    LITTLE, NORMAL, MUCH, VERY_MUCH, INSANE
+  }
 }
