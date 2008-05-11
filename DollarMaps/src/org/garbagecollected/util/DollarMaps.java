@@ -264,10 +264,18 @@ public class DollarMaps {
          * @throws NullPointerException if the map contains a null key
          * @see #asEasy(Class)
          */
-        @SuppressWarnings("unchecked")
         public Easy<T> asEasy() {
             if (hasNullKeys) throw new NullPointerException();
             return new Easy<T>(this);
+        }
+        
+        /**
+         * Same as {@link #asEasy()} but reuses the same two-element array
+         * for each iteration, and thus performs much, much better.
+         */
+        public EasyStream<T> asEasyStream() {
+          if (hasNullKeys) throw new NullPointerException();
+          return new EasyStream<T>(this);
         }
         
         private void recordIfNull(T key) {
@@ -333,6 +341,48 @@ public class DollarMaps {
            T[] a = (T[])Array.newInstance(e.getKey().getClass(), 2);
            a[0] = e.getKey(); a[1] = e.getValue();
            return a;
+        }
+    }
+    
+    /** 
+     * Helper class that enables easy iteration for {@link $$} instances. 
+     * In the contrary to {@link Easy}, this class reuses the same
+     * two-element array when iterating, and thus performs much better.
+     * @see $$#asEasyStream()
+     */
+    public static class EasyStream<T> implements Iterable<T[]> {
+        private final Iterable<Entry<T, T>> m;
+
+        EasyStream(Iterable<Entry<T, T>> m) {
+            this.m = m;
+        }
+        /**
+         * @see java.lang.Iterable#iterator()
+         */
+        public Iterator<T[]> iterator() {
+            return new Iterator<T[]>() {
+                private T[] array;
+                private final Iterator<Entry<T,T>> iter = m.iterator();
+
+                public boolean hasNext() { 
+                    return iter.hasNext(); 
+                }
+                public T[] next() {
+                    return toArray(iter.next());
+                }
+                public void remove() {
+                    // Using this is useless in this context
+                    throw new UnsupportedOperationException();
+                }
+                
+                @SuppressWarnings("unchecked")
+                private T[] toArray(Entry<T,T> e) {
+                    if (array == null)
+                        array=(T[])Array.newInstance(e.getKey().getClass(), 2);
+                    array[0] = e.getKey(); array[1] = e.getValue();
+                    return array;
+                }
+            };
         }
     }
 }
