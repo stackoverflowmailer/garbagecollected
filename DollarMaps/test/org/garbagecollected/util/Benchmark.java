@@ -39,7 +39,7 @@ public class Benchmark {
     int orig = count;
     $$<String> dollar = getMap(count);
     while (count-->0) {
-      for (String[] s : dollar.asEasy()) {
+      for (String[] s : dollar.asEasyStream()) {
         if (true) continue;
       }
     }
@@ -95,7 +95,7 @@ public class Benchmark {
     Data noProxyXData = new Data(toPercentages(noProxyX, totalNoProxy));
     
     Line proxyLine = new Line(proxyXData);
-    proxyLine.setLegend("Easy Map");
+    proxyLine.setLegend("EasyStream Map");
     proxyLine.setColor(Color.RED);
     
     Line noProxyLine = new Line(noProxyXData);
@@ -108,7 +108,7 @@ public class Benchmark {
     
     List<String> xLabels = new LinkedList<String>();
     for(Integer i : multipliers) {
-      xLabels.add(String.format(Locale.US, "%,d", i));
+      xLabels.add(String.format(Locale.US, "%,d", i*1000));
     }
     chart.addXAxisInfo(new AxisInfo(xLabels));
     chart.addXAxisInfo(new AxisInfo("","","","","Objects Created"));

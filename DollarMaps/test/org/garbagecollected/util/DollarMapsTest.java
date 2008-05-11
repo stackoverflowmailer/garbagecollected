@@ -136,6 +136,16 @@ public class DollarMapsTest {
         assertEquals(3, count);
     }
     
+    @Test
+    public void easyStreamIteration() {
+        $$<String> dollar = $$("1","one").$("2", "two").$("3", "three");
+        int count = 0;
+        for (@SuppressWarnings("unused") String[] s : dollar.asEasyStream()) {
+          count++;
+        }
+        assertEquals(3, count);
+    }
+    
     @SuppressWarnings({"unchecked", "unused"})
     @Test
     public void wildCards() {
