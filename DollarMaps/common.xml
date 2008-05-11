@@ -5,7 +5,6 @@
   <property file="build.properties"/>
 
   <!-- can be overridden at the command line with -Dversion= -->
-  <property name="version" value="snapshot"/>
   
   <target name="compile" description="Compile Java source.">
     <mkdir dir="${build.dir}/classes"/>

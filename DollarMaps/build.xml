@@ -58,7 +58,7 @@
          destdir="${build.dir}/javadoc"
          author="false"
          protected="true"
-         windowtitle="DollarMaps 1.0 API">
+         windowtitle="DollarMaps ${version} API">
       <sourcepath>
         <pathelement location="${src.dir}"/>
       </sourcepath>
