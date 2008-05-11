@@ -18,6 +18,7 @@ package org.garbagecollected.util;
 import static org.garbagecollected.util.DollarMaps.$$;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -34,7 +35,7 @@ import com.googlecode.gchartjava.LineChart;
 /** Comparing performance to regular maps. */
 @SuppressWarnings("unused")
 public class Benchmark {
-  private static long proxy(int count) {
+  private static long easyStream(int count) {
     long start = System.currentTimeMillis();
     int orig = count;
     $$<String> dollar = getMap(count);
@@ -58,12 +59,18 @@ public class Benchmark {
     return dollar;
   }
   
-  private static long noProxy(int count) {
+  private static long entrySet(int count) {
     long start = System.currentTimeMillis();
     int orig = count;
-    $$<String> dollar = getMap(count);
+    int count2 = count;
+    //$$<String> dollar = getMap(count);
+    Map<String, String> m = new HashMap<String, String>();
+    m.put("sdf","adfj");
     while (count-->0) {
-      for (Map.Entry<String, String> e : dollar.asHashMap().entrySet()) {
+      m.put(""+count, ""+count);
+    }
+    while (count2-->0) {
+      for (Map.Entry<String, String> e : m.entrySet()) {
         if (true) continue;
       }
     }
@@ -84,9 +91,9 @@ public class Benchmark {
     
     for (int n : multipliers) {
       int number = n * 1000;
-      proxyX[counter] = (float)proxy(number);
+      proxyX[counter] = (float)easyStream(number);
       totalProxy+=proxyX[counter];
-      noProxyX[counter++] = (float)noProxy(number);
+      noProxyX[counter++] = (float)entrySet(number);
       totalNoProxy+= noProxyX[counter-1];
     }
     totalNoProxy = 5000;
