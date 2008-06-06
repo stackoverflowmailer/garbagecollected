@@ -20,7 +20,7 @@ package org.garbagecollected.logging;
  */
 public interface ILog {
   /** Publishes a message to the given log level. */
-  void publish(Level level, Object... msg);
+  void publish(Level level, Object msg, Object... msgs);
   
   /** Enable all log levels. */
   void enableAllLevels();

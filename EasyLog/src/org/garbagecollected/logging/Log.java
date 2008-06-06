@@ -18,7 +18,9 @@ package org.garbagecollected.logging;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.AbstractList;
 import java.util.BitSet;
+import java.util.List;
 
 /** 
  * Simple logging system that shows how simple logging can
@@ -68,11 +70,14 @@ public class Log implements ILog {
   /**
    * @see org.garbagecollected.logging.ILog#publish(org.garbagecollected.logging.Log.Level, java.lang.Object)
    */
-  public void publish(Level level, Object... msg) {
+  public void publish(Level level, Object msg, Object... msgs) {
+    precondition(msg != null, "Message may not be null");
+    precondition(msgs != null, "Messages may not be null");
     if (enabled.get(level.ordinal()-1)) {
       byte[] line;
+      List<Object> messages = asList(msg, msgs);
       try {
-        line = format.constructLine(level, msg).getBytes("UTF-8");
+        line = format.constructLine(level, messages).getBytes("UTF-8");
       } catch (UnsupportedEncodingException e1) {
         throw new RuntimeException(e1);
       }
@@ -84,7 +89,7 @@ public class Log implements ILog {
       }
     }
   }
-
+  
   /**
    * @see org.garbagecollected.logging.ILog#enableAllLevels()
    */
@@ -116,6 +121,21 @@ public class Log implements ILog {
   private static void precondition(boolean condition, String msg) {
     if (!condition) throw new IllegalArgumentException(msg);
   }
+  
+  private List<Object> asList(final Object msg, final Object... msgs) {
+    List<Object> messages = new AbstractList<Object>() {
+      @Override public int size() {
+        return msgs.length + 1;
+      }
+      @Override public Object get(int index) {
+        int indexMinusOne = index-1;
+        if (indexMinusOne > msgs.length || index < 0)
+          throw new IndexOutOfBoundsException();
+        return (index == 0) ? msg : msgs[indexMinusOne];
+      }
+    };
+    return messages;
+  }
 
   public enum FormatOption {
     /** Log Level. */
@@ -129,6 +149,9 @@ public class Log implements ILog {
   public static class Format {
     private final String format;
     private final FormatOption[] lineStructure;
+    private final Object[] formatArguments;
+    private final Object[] formatArgumentsTemplate;
+    
     public Format(String format, FormatOption... lineStructure) {
       precondition(format != null, "format may not be null");
       precondition(lineStructure.length>0, "Need at least one FormatOption");
@@ -136,11 +159,13 @@ public class Log implements ILog {
       this.lineStructure = new FormatOption[lineStructure.length];
       // defensive copy
       System.arraycopy(lineStructure, 0, this.lineStructure, 0, lineStructure.length);
+      // allocate array for generating a single line
+      this.formatArguments = new Object[lineStructure.length];
+      // allocate array used to reset the single line array
+      this.formatArgumentsTemplate = new Object[lineStructure.length];
     }
 
-    public String constructLine(Level level, Object[] provided) {
-      Object[] formatArguments = new Object[lineStructure.length];
-      
+    public String constructLine(Level level, List<Object> provided) {      
       for (int i = 0, index = 0; i < lineStructure.length; i++) {
         if (FormatOption.LEVEL == lineStructure[i]) {
           formatArguments[i] = level;
@@ -148,16 +173,21 @@ public class Log implements ILog {
           formatArguments[i] = Thread.currentThread().getId();
         } else if (FormatOption.RUNTIME_PARAMETER == lineStructure[i]) {
           int position = index;
-          if (position >= provided.length) {
-            throw new IllegalArgumentException("Expecting more arguments than "+provided.length);
+          if (position >= provided.size()) {
+            throw new IllegalArgumentException("Expecting more arguments than "+provided.size());
           }
-          formatArguments[i] = provided[position];
+          formatArguments[i] = provided.get(position);
           index++;
         } else {
           throw new IllegalArgumentException("Unknown FormatOption: "+lineStructure[i]);
         }
       }
-      return String.format(format, formatArguments);
+      try {
+        return String.format(format, formatArguments);
+      } finally {
+        // reset the formatArguments array to have a clean slate for the next line
+        System.arraycopy(formatArgumentsTemplate, 0, formatArguments, 0, formatArguments.length);
+      }
     }
   }
 }

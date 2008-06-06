@@ -54,7 +54,7 @@ public class LogTest {
   public void tooLittleArguments() {
     ILog logger = new Log(new Format(getTestFormat(), LEVEL, RUNTIME_PARAMETER));
     logger.enableAllLevels();
-    logger.publish(Level.VERY_MUCH);
+    logger.publish(Level.VERY_MUCH,null);
   }
 
   private static String getTestFormat() {
