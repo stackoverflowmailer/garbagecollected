@@ -128,10 +128,7 @@ public class Log implements ILog {
         return msgs.length + 1;
       }
       @Override public Object get(int index) {
-        int indexMinusOne = index-1;
-        if (indexMinusOne > msgs.length || index < 0)
-          throw new IndexOutOfBoundsException();
-        return (index == 0) ? msg : msgs[indexMinusOne];
+        return (index == 0) ? msg : msgs[index-1];
       }
     };
     return messages;
