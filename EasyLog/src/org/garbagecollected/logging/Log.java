@@ -30,7 +30,7 @@ import java.util.List;
  */
 public class Log implements ILog {
   /** Keeps track of which {@link Level}s are enabled. */
-  private BitSet enabled;
+  private BitSet enabledLogLevels;
   
   /** Specifies the format of a single line. */
   private final Format format;
@@ -73,7 +73,7 @@ public class Log implements ILog {
   public void publish(Level level, Object msg, Object... msgs) {
     precondition(msg != null, "Message may not be null");
     precondition(msgs != null, "Messages may not be null");
-    if (enabled.get(level.ordinal()-1)) {
+    if (enabledLogLevels.get(level.ordinal()-1)) {
       byte[] line;
       List<Object> messages = asList(msg, msgs);
       try {
@@ -94,28 +94,28 @@ public class Log implements ILog {
    * @see org.garbagecollected.logging.ILog#enableAllLevels()
    */
   public void enableAllLevels() {
-    enabled.set(0, Level.values().length);
+    enabledLogLevels.set(0, Level.values().length);
   }
   
   /**
    * @see org.garbagecollected.logging.ILog#enable(org.garbagecollected.logging.Log.Level)
    */
   public void enable(Level level) {
-    enabled.set(0, level.ordinal());
+    enabledLogLevels.set(0, level.ordinal());
   }
 
   /**
    * @see org.garbagecollected.logging.ILog#disableAllLevels()
    */
   public void disableAllLevels() {
-    enabled = new BitSet();
+    enabledLogLevels = new BitSet();
   }
   
   /**
    * @see org.garbagecollected.logging.ILog#disable(org.garbagecollected.logging.Log.Level)
    */
   public void disable(Level level) {
-    enabled.set(0, level.ordinal(), false);
+    enabledLogLevels.set(0, level.ordinal(), false);
   }
   
   private static void precondition(boolean condition, String msg) {
