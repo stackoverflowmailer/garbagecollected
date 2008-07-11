@@ -19,8 +19,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.AbstractList;
-import java.util.BitSet;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 /** 
  * Simple logging system that shows how simple logging can
@@ -30,7 +31,7 @@ import java.util.List;
  */
 public class Log implements ILog {
   /** Keeps track of which {@link Level}s are enabled. */
-  private BitSet enabledLogLevels;
+  private final Set<Level> enabledLogLevels = EnumSet.noneOf(Level.class);
   
   /** Specifies the format of a single line. */
   private final Format format;
@@ -64,7 +65,6 @@ public class Log implements ILog {
     precondition(os != null, "OutputStream may not be null");
     this.format = format;
     this.os = os;
-    disableAllLevels();
   }
 
   /**
@@ -73,7 +73,7 @@ public class Log implements ILog {
   public void publish(Level level, Object msg, Object... msgs) {
     precondition(msg != null, "Message may not be null");
     precondition(msgs != null, "Messages may not be null");
-    if (enabledLogLevels.get(level.ordinal()-1)) {
+    if (enabledLogLevels.contains(level)) {
       byte[] line;
       List<Object> messages = asList(msg, msgs);
       try {
@@ -94,28 +94,28 @@ public class Log implements ILog {
    * @see org.garbagecollected.logging.ILog#enableAllLevels()
    */
   public void enableAllLevels() {
-    enabledLogLevels.set(0, Level.values().length);
+    enabledLogLevels.addAll(EnumSet.allOf(Level.class));
   }
   
   /**
    * @see org.garbagecollected.logging.ILog#enable(org.garbagecollected.logging.Log.Level)
    */
   public void enable(Level level) {
-    enabledLogLevels.set(0, level.ordinal());
+    enabledLogLevels.addAll(level.lowerAndCurrent());
   }
 
   /**
    * @see org.garbagecollected.logging.ILog#disableAllLevels()
    */
   public void disableAllLevels() {
-    enabledLogLevels = new BitSet();
+    enabledLogLevels.clear();
   }
   
   /**
    * @see org.garbagecollected.logging.ILog#disable(org.garbagecollected.logging.Log.Level)
    */
   public void disable(Level level) {
-    enabledLogLevels.set(0, level.ordinal(), false);
+    enabledLogLevels.removeAll(level.lowerAndCurrent());
   }
   
   private static void precondition(boolean condition, String msg) {
