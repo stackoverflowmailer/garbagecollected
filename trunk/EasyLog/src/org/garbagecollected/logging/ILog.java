@@ -41,18 +41,18 @@ public interface ILog {
     
     // I'm reluctant to use EnumSet.range(...) because it relies on ordinal()
     // Used for disabling/enabling levels.
-    private static final Map<Level, Set<Level>> SELF_AND_LOWER;
+    private static final Map<Level, Set<Level>> LOWER_AND_SELF;
     static {
-      SELF_AND_LOWER = new EnumMap<Level, Set<Level>>(Level.class);
-      SELF_AND_LOWER.put(LITTLE, EnumSet.of(LITTLE));
-      SELF_AND_LOWER.put(NORMAL, EnumSet.of(LITTLE, NORMAL));
-      SELF_AND_LOWER.put(MUCH, EnumSet.of(LITTLE, NORMAL, MUCH));
-      SELF_AND_LOWER.put(VERY_MUCH, EnumSet.of(LITTLE, NORMAL, MUCH, VERY_MUCH));
-      SELF_AND_LOWER.put(INSANE, EnumSet.allOf(Level.class));
+      LOWER_AND_SELF = new EnumMap<Level, Set<Level>>(Level.class);
+      LOWER_AND_SELF.put(LITTLE, EnumSet.of(LITTLE));
+      LOWER_AND_SELF.put(NORMAL, EnumSet.of(LITTLE, NORMAL));
+      LOWER_AND_SELF.put(MUCH, EnumSet.of(LITTLE, NORMAL, MUCH));
+      LOWER_AND_SELF.put(VERY_MUCH, EnumSet.of(LITTLE, NORMAL, MUCH, VERY_MUCH));
+      LOWER_AND_SELF.put(INSANE, EnumSet.allOf(Level.class));
     }
     
     Set<Level> lowerAndCurrent() {
-      return SELF_AND_LOWER.get(this);
+      return LOWER_AND_SELF.get(this);
     }
   }
 }
