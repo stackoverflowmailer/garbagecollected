@@ -37,7 +37,7 @@ Now how do you expose this service at a remote location, and use it locally? Her
 
 == Server Configuration ==
 
-For the server configuration you need Warp Servlet. After you configured the web.xml and put the JAR in the classpath as document on the [http://www.wideplay.com/warp%3A%3Aservlet Warp Servlet website], here's an example !WarpServletContextListener:
+For the server configuration you need Warp Servlet. After you configured the web.xml and put the JAR in the classpath as documented on the [http://www.wideplay.com/warp%3A%3Aservlet Warp Servlet website], here's my !WarpServletContextListener for this example:
 
 {{{
 public class MyInjectorCreator extends WarpServletContextListener {
