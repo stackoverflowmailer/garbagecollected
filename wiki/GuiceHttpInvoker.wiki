@@ -1,4 +1,4 @@
-#summary Using Spring's !HttpInvoker with Guice
+#summary Using Spring's HttpInvoker with Guice
 #labels Featured,Guice,SpringFramework,HttpInvoker,Remoting
 
 = Spring's !HttpInvoker on Guice =
