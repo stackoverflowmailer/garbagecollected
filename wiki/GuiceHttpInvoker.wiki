@@ -9,7 +9,7 @@ So I ported Spring's !HttpInvoker to Guice. Let's get you started.
 Get the bits here.
 
 = Dependencies =
-  * [http://www.wideplay.com Warp Servlet]
+  * [http://www.wideplay.com/warp%3A%3Aservlet Warp Servlet]
   * [http://hc.apache.org/httpclient-3.x/ Apache HttpClient] (optional)
 
 = Example =
@@ -30,7 +30,7 @@ Now how do you expose this service at a remote location, and use it locally? Her
 
 == Server Configuration ==
 
-For the server configuration you need Warp Servlet. After you configured the web.xml and put the JAR in the classpath, here's an example !WarpServletContextListener:
+For the server configuration you need Warp Servlet. After you configured the web.xml and put the JAR in the classpath as document on the [http://www.wideplay.com/warp%3A%3Aservlet Warp Servlet website], here's an example !WarpServletContextListener:
 
 {{{
 public class MyInjectorCreator extends WarpServletContextListener {
