@@ -5,6 +5,13 @@
 
 So I ported Spring's !HttpInvoker to Guice. Let's get you started.
 
+= Download =
+Get the bits here.
+
+= Dependencies =
+[http://www.wideplay.com Warp Servlet]
+[http://hc.apache.org/httpclient-3.x/ Apache HttpClient] (optional)
+
 = Example =
 
 {{{
