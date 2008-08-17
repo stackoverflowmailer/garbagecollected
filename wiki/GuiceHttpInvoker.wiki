@@ -1,9 +1,9 @@
-#summary Using Spring's HttpInvoker with Guice
+#summary Using Spring's !HttpInvoker with Guice
 #labels Featured,Guice,SpringFramework,HttpInvoker,Remoting
 
-= Spring's HttpInvoker on Guice =
+= Spring's !HttpInvoker on Guice =
 
-So I ported Spring's HttpInvoker to Guice. Let's get you started.
+So I ported Spring's !HttpInvoker to Guice. Let's get you started.
 
 = Example =
 
@@ -23,7 +23,7 @@ Now how do you expose this service at a remote location, and use it locally? Her
 
 == Server Configuration ==
 
-For the server configuration you need Warp Servlet. After you configured the web.xml and put the JAR in the classpath, here's an example WarpServletContextListener:
+For the server configuration you need Warp Servlet. After you configured the web.xml and put the JAR in the classpath, here's an example !WarpServletContextListener:
 
 {{{
 public class MyInjectorCreator extends WarpServletContextListener {
@@ -94,7 +94,7 @@ public class Client {
 }
 }}}
 
-Optionally, you can specify an executor, for example to use Apache HttpClient (which supports authentication and more advanced features that are not in the JDK). You obviously do need HttpClient in your classpath for this to work.
+Optionally, you can specify an executor, for example to use Apache !HttpClient (which supports authentication and more advanced features that are not in the JDK). You obviously do need !HttpClient in your classpath for this to work.
 {{{
 public class Client {
     public static void main(String[] args) {
