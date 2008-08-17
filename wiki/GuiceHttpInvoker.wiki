@@ -97,7 +97,7 @@ public class Client {
     public static void main(String[] args) {
         Injector injector = Guice.createInjector(new AbstractModule() {
             protected void configure() {
-                bind(SampleService.class).toProvider(Remoting.connectTo("http://localhost:8080/sampleService")l
+                bind(SampleService.class).toProvider(Remoting.connectTo("http://localhost:8080/sampleService")
                                                              .with(SampleService.class));
             }
         });
