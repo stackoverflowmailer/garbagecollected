@@ -9,6 +9,7 @@ So I ported Spring's !HttpInvoker to Guice. Let's get you started.
 Get the bits here.
 
 = Dependencies =
+  * [http://code.google.com/p/google-guice Guice]
   * [http://www.wideplay.com/warp%3A%3Aservlet Warp Servlet]
   * [http://hc.apache.org/httpclient-3.x/ Apache HttpClient] (optional)
 
