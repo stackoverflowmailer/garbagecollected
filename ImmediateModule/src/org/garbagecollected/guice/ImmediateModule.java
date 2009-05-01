@@ -138,10 +138,10 @@ public abstract class ImmediateModule implements Module {
   
   static class MethodInvocationRecorder implements InvocationHandler {
     private final List<Invocation> invocations;
-    private final boolean isBinder;
+    private final boolean root;
     
-    MethodInvocationRecorder(boolean isBinder, List<Invocation> invocations) {
-      this.isBinder = isBinder;
+    MethodInvocationRecorder(boolean root, List<Invocation> invocations) {
+      this.root = root;
       this.invocations = invocations;
     }
     
@@ -156,7 +156,7 @@ public abstract class ImmediateModule implements Module {
         Invocation incomingInvocation = new Invocation();
         incomingInvocation.method = method;
         incomingInvocation.args = args;
-        incomingInvocation.root = isBinder;
+        incomingInvocation.root = root;
         invocations.add(incomingInvocation);
 
         if (Void.TYPE.isAssignableFrom(method.getReturnType())) {
