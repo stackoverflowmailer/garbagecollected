@@ -65,13 +65,13 @@ public abstract class ImmediateModule implements Module {
       errorMsg.append(String.format("}};%n"));
       throw new IllegalStateException(errorMsg.toString());
     }
-    replayBindings(binder, binder, recordedInvocations.removeFirst());
+    replayInvocations(binder, binder, recordedInvocations.removeFirst());
   }
   
-  void replayBindings(Binder binder, Object target, Invocation invocation) {
+  void replayInvocations(Binder binder, Object target, Invocation invocation) {
     Object result = invocation.execute(invocation.root ? binder : target);
     if (recordedInvocations.peek() != null) 
-      replayBindings(binder, result, recordedInvocations.removeFirst());
+      replayInvocations(binder, result, recordedInvocations.removeFirst());
   }
   
   /**
