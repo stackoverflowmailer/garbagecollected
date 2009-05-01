@@ -207,7 +207,6 @@ public abstract class ImmediateModule implements Module {
     }
   }
   
-  // Represents the call chain as a linked list
   static class Invocation {
     Method method;
     Object[] args;
