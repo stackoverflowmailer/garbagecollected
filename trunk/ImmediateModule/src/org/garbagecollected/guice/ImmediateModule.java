@@ -23,7 +23,7 @@ import com.google.inject.binder.LinkedBindingBuilder;
  * Before:
  * <pre>
  * Module module = new AbstractModule() {
- *   {@Code @}Override
+ *   {@literal @}Override
  *   protected void configure() {
  *     bind(MyInterface.class).to(MyImplementation.class);
  *   }
