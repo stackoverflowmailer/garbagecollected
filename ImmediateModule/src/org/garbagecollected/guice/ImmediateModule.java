@@ -16,7 +16,7 @@ import com.google.inject.binder.AnnotatedConstantBindingBuilder;
 import com.google.inject.binder.LinkedBindingBuilder;
 
 /**
- * Enables a slightly less cluttered syntax to create instances of {@link Module},
+ * Enables a slightly less cluttered syntax for creating instances of {@link Module},
  * by eliminating the need to override a {@code configure(...)} method when using
  * anonymous inner classes.
  * <p>
@@ -38,7 +38,7 @@ import com.google.inject.binder.LinkedBindingBuilder;
  * </pre>
  * <p>
  * Note that by creating an ImmediateModule, you immediately execute your bind statements
- * (hence the module name). This mean that any objects you create in your bindings will be created
+ * (hence the module name). This means that any objects you create in your bindings will be created
  * right there on the spot, and not when Guice invokes {@link Module#configure(Binder)}.
  * Behind the scenes, ImmediateModule records what you do at module creation time
  * and then replays it when Guice calls {@link Module#configure(Binder)}.
