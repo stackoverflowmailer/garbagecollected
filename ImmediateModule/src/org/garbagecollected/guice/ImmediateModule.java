@@ -34,7 +34,7 @@ import com.google.inject.binder.LinkedBindingBuilder;
  * <pre>
  * Module module = new ImmediateModule() {{
  *   bind(MyInterface.class).to(MyImplementation.class);
- * }}
+ * }};
  * </pre>
  * <p>
  * Note that by creating an ImmediateModule, you immediately execute your bind statements
