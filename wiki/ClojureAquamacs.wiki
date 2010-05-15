@@ -1,0 +1,21 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+Install ELPA, which is a tool to install Emacs extensions.
+Do so by pasting this into Aquamacs:
+{{{
+  (let ((buffer (url-retrieve-synchronously
+           "http://tromey.com/elpa/package-install.el")))
+  (save-excursion
+    (set-buffer buffer)
+    (goto-char (point-min))
+    (re-search-forward "^$" nil 'move)
+    (eval-region (point) (point-max))
+    (kill-buffer (current-buffer))))
+}}}
+Move your cursor to the end and hit C-x C-e.
+Now type M-x package-list-packages
+
+This opens a list of available packages
+Select swank-clojure by pressing "i" on the line. Pressing "x" will install all selected packages.
